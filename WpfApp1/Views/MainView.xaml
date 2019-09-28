@@ -1,0 +1,116 @@
+﻿<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        xmlns:vm="clr-namespace:WpfApp1.ViewModels"
+        mc:Ignorable="d" 
+        Title="MainView" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:MainViewModel></vm:MainViewModel>
+    </Window.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <ListBox
+                Name="StudentListBox"
+                ItemsSource="{Binding Students}"
+                SelectedItem="{Binding SelectedStudent}"                
+                
+                >
+                <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="{Binding SurName}"></Label>
+                        <Label Content="{Binding Name}"></Label>
+                        <Label Content="{Binding Year}"></Label>
+                        <Label Content="{Binding Group}"></Label>
+                    </StackPanel>
+                </DataTemplate>
+                </ListBox.ItemTemplate>
+
+            </ListBox>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70*"></RowDefinition>
+                <RowDefinition Height="30*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <Label>Surname:
+                </Label>
+                <TextBox Text="{ Binding ElementName=StudentListBox,Path=SelectedItem.SurName , UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <Label>Name:</Label>
+                <TextBox Text="{ Binding ElementName=StudentListBox,Path=SelectedItem.Name , UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <Label>Year:</Label>
+                <TextBox Text="{ Binding ElementName=StudentListBox,Path=SelectedItem.Year , UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <Label>Group:</Label>
+                <TextBox Text="{ Binding ElementName=StudentListBox,Path=SelectedItem.Group , UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+                <Button Command="{Binding AddCommand}">Add</Button>
+                <Button Command="{Binding RemoveCommand}">Del</Button>
+
+                <Button Command="{Binding SaveCommand}">Save</Button>
+                <Button Command="{Binding LoadCommand}">Load</Button>
+            </StackPanel>
+        <Expander Grid.Row="1" 
+            Name="Expander"
+            >
+            <Grid Background="Aqua">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"></RowDefinition>
+                    <RowDefinition Height="20"></RowDefinition>
+                    <RowDefinition Height="20"></RowDefinition>
+                    <RowDefinition Height="20"></RowDefinition>
+                    <RowDefinition Height="20"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                           
+                </Grid.ColumnDefinitions>
+                <RadioButton 
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Name="SurnameRadioButton"
+                    Command="{Binding SortSurNameCommand}"
+                    >Фамилия
+                </RadioButton>
+
+                <RadioButton
+                    Grid.Row="1"
+                    Grid.Column="0"                    
+                    Name="NameRadioButton"
+                    Command="{Binding SortNameCommand}"
+                    >Имя
+                </RadioButton>
+                <RadioButton
+                    Grid.Row="2"
+                    Grid.Column="0"                    
+                    Name="BirthRadioButton"
+                    Command="{Binding SortYearCommand}"
+                    >Год рождения
+                </RadioButton>
+                <RadioButton
+                    Grid.Row="3"
+                    Grid.Column="0"                    
+                    Name="GroupRadioButton"
+                    Command="{Binding SortGroupCommand}"
+                    >Группа
+                </RadioButton>
+
+                <CheckBox
+                    Grid.Column="0"
+                    Grid.Row="4"                    
+                    IsChecked="{Binding Desc}"
+                    >По спаданию
+                </CheckBox>
+            </Grid>
+        </Expander>
+        </Grid>
+    </Grid>
+</Window>
